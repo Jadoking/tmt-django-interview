@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'interview.core',
     'interview.inventory',
-    'interview.order'
+    'interview.order',
+    'interview.profiles',
 ]
+
+AUTH_USER_MODEL = 'profiles.UserProfile'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
