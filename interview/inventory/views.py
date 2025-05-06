@@ -1,9 +1,12 @@
+from datetime import datetime
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
 
 from interview.inventory.models import Inventory, InventoryLanguage, InventoryTag, InventoryType
 from interview.inventory.schemas import InventoryMetaData
+from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer, InventoryWithTimestampSerializer
 from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer
 
 
@@ -219,3 +222,29 @@ class InventoryTypeRetrieveUpdateDestroyView(APIView):
     
     def get_queryset(self, **kwargs):
         return self.queryset.get(**kwargs)
+
+
+class InventoryCreatedAfterDateView(APIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventoryWithTimestampSerializer
+
+    # takes a querystring /?date=YYYY-MM-DD
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        date_str = request.query_params.get('date')
+        if not date_str:
+            return Response(
+                {"error": "Missing 'date' parameter in format YYYY-MM-DD"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            date = datetime.strptime(date_str, "%Y-%m-%d")
+        except ValueError:
+            return Response(
+                {"error": "Invalid date format. Use YYYY-MM-DD"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        inventories = self.queryset.filter(created_at__gt=date)
+        serializer = self.serializer_class(inventories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
