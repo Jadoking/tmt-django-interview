@@ -2,6 +2,8 @@
 from django.urls import path
 from interview.inventory.views import InventoryLanguageListCreateView, InventoryLanguageRetrieveUpdateDestroyView, InventoryListCreateView, InventoryRetrieveUpdateDestroyView, InventoryTagListCreateView, InventoryTagRetrieveUpdateDestroyView, InventoryTypeListCreateView, InventoryTypeRetrieveUpdateDestroyView, InventoryCreatedAfterDateView
 from interview.order.views import OrderListCreateView, OrderTagListCreateView 
+
+
 urlpatterns = [
     path('<int:id>/', InventoryRetrieveUpdateDestroyView.as_view(), name='inventory-detail'),
     path('languages/<int:id>/', InventoryLanguageRetrieveUpdateDestroyView.as_view(), name='inventory-languages-detail'),

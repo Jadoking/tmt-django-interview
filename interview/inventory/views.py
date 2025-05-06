@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from interview.inventory.models import Inventory, InventoryLanguage, InventoryTag, InventoryType
 from interview.inventory.schemas import InventoryMetaData
 from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer, InventoryWithTimestampSerializer
+from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer
 
 
 class InventoryListCreateView(APIView):

@@ -38,4 +38,3 @@ class InventorySerializer(serializers.ModelSerializer):
 class InventoryWithTimestampSerializer(InventorySerializer):
     class Meta(InventorySerializer.Meta):
         fields = InventorySerializer.Meta.fields + ['created_at']
-
